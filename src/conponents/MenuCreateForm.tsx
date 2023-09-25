@@ -9,8 +9,8 @@ import {
   Select,
   Space,
 } from "antd";
-import { ingredienCategorytData, mockIngredient } from "@/app/ingredient/page";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
+import { mockIngredient } from "@/util/mockData";
 interface Values {
   title: string;
   description: string;
@@ -115,6 +115,7 @@ export const MenuCreateFrom: React.FC<MenuCreateForm> = ({
                     optionFilterProp="children"
                     onChange={onChange}
                     onSearch={onSearch}
+                    // @ts-ignore
                     filterOption={filterOption}
                     options={mockIngredient.map((ingredient) => {
                       return {
@@ -124,7 +125,7 @@ export const MenuCreateFrom: React.FC<MenuCreateForm> = ({
                     })}
                   />
                   <Form.Item>
-                    <Input  placeholder="Unit" disabled />
+                    <Input placeholder="Unit" disabled />
                   </Form.Item>
                   <Form.Item>
                     <Input placeholder="Product Price" disabled />

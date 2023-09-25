@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button, Form, Input, InputNumber, Modal, Radio } from "antd";
-import { ingredienCategorytData } from "@/app/ingredient/page";
+import { ingredienCategorytData } from "@/util/mockData";
 
 interface Values {
   title: string;

@@ -29,73 +29,9 @@ import { useRef, useState } from "react";
 import { IngredientCreateForm } from "@/conponents/IngredientCreateForm";
 import { FilterConfirmProps } from "antd/es/table/interface";
 import Highlighter from "react-highlight-words";
-type IngredientCategory = "seafood" | "meat" | "vegetable" | "other";
-export const ingredienCategorytData: IngredientCategory[] = [
-  "seafood",
-  "meat",
-  "vegetable",
-  "other",
-];
+import { DataIndex, Ingredient, IngredientCategory } from "./type";
+import { ingredienCategorytData, mockIngredient } from "@/util/mockData";
 
-type Ingredient = {
-  key: string;
-  name: string;
-  category: IngredientCategory;
-  unit: string;
-  unitPrice: number;
-};
-type DataIndex = keyof Ingredient;
-export const mockIngredient: Ingredient[] = [
-  {
-    key: "1",
-    name: "ingredient 1",
-    category: "seafood",
-    unit: "kg",
-    unitPrice: 200,
-  },
-  {
-    key: "2",
-    name: "ingredient 2",
-    category: "meat",
-    unit: "g",
-    unitPrice: 400,
-  },
-  {
-    key: "3",
-    name: "ingredient 3",
-    category: "seafood",
-    unit: "kg",
-    unitPrice: 100,
-  },
-  {
-    key: "4",
-    name: "ingredient 1",
-    category: "vegetable",
-    unit: "kg",
-    unitPrice: 600,
-  },
-  {
-    key: "5",
-    name: "ingredient 2",
-    category: "meat",
-    unit: "g",
-    unitPrice: 400,
-  },
-  {
-    key: "6",
-    name: "ingredient 3",
-    category: "seafood",
-    unit: "kg",
-    unitPrice: 100,
-  },
-  {
-    key: "7",
-    name: "ingredient 1",
-    category: "vegetable",
-    unit: "kg",
-    unitPrice: 600,
-  },
-];
 const IngredientPage = () => {
   const [ingredientList, setIngredientList] =
     useState<Ingredient[]>(mockIngredient);
@@ -131,6 +67,7 @@ const IngredientPage = () => {
         <Input
           ref={searchInput}
           placeholder={`Search ${dataIndex}`}
+          // @ts-ignore
           value={selectedKeys[0]}
           onChange={(e) =>
             setSelectedKeys(e.target.value ? [e.target.value] : [])
@@ -241,7 +178,11 @@ const IngredientPage = () => {
   );
 };
 
-const handleGenerateColumns: ({ getColumnSearchProps }) => //   mutate,
+const handleGenerateColumns: ({
+  getColumnSearchProps,
+}: {
+  getColumnSearchProps: any;
+}) => //   mutate,
 
 ColumnsType<Ingredient> = ({ getColumnSearchProps }) => [
   {

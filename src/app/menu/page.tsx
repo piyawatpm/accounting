@@ -5,69 +5,13 @@ import { FilterConfirmProps } from "antd/es/table/interface";
 import { Input } from "postcss";
 import { useRef, useState } from "react";
 import Highlighter from "react-highlight-words";
-import { ingredienCategorytData } from "../ingredient/page";
+
 import { SearchOutlined } from "@ant-design/icons";
 import Link from "next/link";
 import { MenuCreateFrom } from "@/conponents/MenuCreateForm";
+import { mockMenu } from "@/util/mockData";
+import { MenuTableData, DataIndex } from "./type";
 
-type MenuTableData = {
-  key: string;
-  name: string;
-  cost: number;
-  costPercent: number;
-  yieldPercent: number;
-};
-type DataIndex = keyof MenuTableData;
-export const mockMenu = [
-  {
-    id: "1",
-    key: "1",
-    name: "menu1",
-    cost: 1,
-    costPercent: 20,
-    yieldPercent: 20,
-  },
-  {
-    id: "2",
-    key: "2",
-    name: "menu2",
-    cost: 2,
-    costPercent: 20,
-    yieldPercent: 20,
-  },
-  {
-    id: "3",
-    key: "3",
-    name: "menu3",
-    cost: 3,
-    costPercent: 20,
-    yieldPercent: 20,
-  },
-  {
-    id: "4",
-    key: "4",
-    name: "menu4",
-    cost: 4,
-    costPercent: 20,
-    yieldPercent: 20,
-  },
-  {
-    id: "5",
-    key: "5",
-    name: "menu5",
-    cost: 5,
-    costPercent: 20,
-    yieldPercent: 20,
-  },
-  {
-    id: "6",
-    key: "6",
-    name: "menu6",
-    cost: 6,
-    costPercent: 20,
-    yieldPercent: 20,
-  },
-];
 const MenuPage = () => {
   const [loading, setLoading] = useState(false);
   const [menuList, setMenuList] = useState<MenuTableData[]>(mockMenu);
@@ -100,11 +44,12 @@ const MenuPage = () => {
       close,
     }) => (
       <div style={{ padding: 8 }} onKeyDown={(e) => e.stopPropagation()}>
+        {/* @ts-ignore */}
         <Input
           ref={searchInput}
           placeholder={`Search ${dataIndex}`}
           value={selectedKeys[0]}
-          onChange={(e) =>
+          onChange={(e: any) =>
             setSelectedKeys(e.target.value ? [e.target.value] : [])
           }
           onPressEnter={() =>
@@ -213,7 +158,11 @@ const MenuPage = () => {
   );
 };
 
-const handleGenerateColumns: ({ getColumnSearchProps }) => //   mutate,
+const handleGenerateColumns: ({
+  getColumnSearchProps,
+}: {
+  getColumnSearchProps: any;
+}) => //   mutate,
 
 ColumnsType<MenuTableData> = ({ getColumnSearchProps }) => [
   {

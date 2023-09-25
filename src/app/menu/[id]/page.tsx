@@ -1,7 +1,8 @@
 "use client";
-import { mockMenu } from "../page";
 
-const MenuDetail = ({ params, searchParams }) => {
+import { mockMenu } from "@/util/mockData";
+
+const MenuDetail = ({ params, searchParams }: any) => {
   console.log("params", params);
   console.log("searchParams", searchParams);
   const targetMenu = mockMenu.find((e) => e.id === params.id);
