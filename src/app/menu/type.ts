@@ -6,6 +6,6 @@ export type MenuTableData = {
     cost: number;
     costPercent: number;
     yieldPercent: number;
-    ingredients:Ingredient[]
+    // ingredients:Ingredient[]
   };
 export type DataIndex = keyof MenuTableData;

@@ -157,8 +157,8 @@ export const MenuCreateFrom: React.FC<MenuCreateForm> = ({
         <Form.Item name="name" label="Name">
           <Input />
         </Form.Item>
-        <Form.Item name="sellingPrice" label="Selling Price">
-          <InputNumber />
+        <Form.Item name="sellingPrice" initialValue={0} label="Selling Price">
+          <InputNumber min={0} />
         </Form.Item>
         <Form.List name="ingredients">
           {(fields, { add, remove }) => (

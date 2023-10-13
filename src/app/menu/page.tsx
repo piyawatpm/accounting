@@ -11,6 +11,8 @@ import Link from "next/link";
 import { MenuCreateFrom } from "@/conponents/MenuCreateForm";
 import { mockMenu } from "@/util/mockData";
 import { MenuTableData, DataIndex } from "./type";
+import { v4 as uuidv4 } from "uuid";
+import { api } from "../../../lib/axios";
 
 const MenuPage = () => {
   const [loading, setLoading] = useState(false);
@@ -119,14 +121,28 @@ const MenuPage = () => {
   };
   const onCreate = async (values: any) => {
     console.log("Received values of form: ", values);
-    setLoading(true);
-    await setTimeout(() => {
-      // setIngredientList((p) => {
-      //   return [...p, values];
-      // });
-      setOpen(false);
+    try {
+      setLoading(true);
+      const response = await api.post("menus", {
+        key: uuidv4(),
+        ...values,
+      });
+      // await refetchIngredients();
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    } finally {
       setLoading(false);
-    }, 3000);
+      // setOpen(false);
+    }
+
+    // await setTimeout(() => {
+    //   setIngredientList((p) => {
+    //     return [...p, values];
+    //   });
+    //   setOpen(false);
+    //   setLoading(false);
+    // }, 3000);
     // setOpen(false);s
   };
   const onCancel = () => {
