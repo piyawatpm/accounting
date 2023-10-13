@@ -33,6 +33,7 @@ export const MenuCreateFrom: React.FC<MenuCreateForm> = ({
   const [form] = Form.useForm();
   const onChange = (value: string) => {
     const currentData = form.getFieldValue("ingredients");
+    // @ts-ignore
     const newData = currentData.map((ingredient) => {
       if (!ingredient) {
         return;
@@ -64,7 +65,7 @@ export const MenuCreateFrom: React.FC<MenuCreateForm> = ({
     input: string,
     option: { label: string; value: string }
   ) => (option?.label ?? "").toLowerCase().includes(input.toLowerCase());
-  const handleFieldsChange = (values) => {
+  const handleFieldsChange = () => {
     console.log("values = ", form.getFieldValue("ingredients"));
     // const currentData = form.getFieldValue("ingredients");
     // const newValue =
@@ -81,9 +82,9 @@ export const MenuCreateFrom: React.FC<MenuCreateForm> = ({
   const testFn = () => {
     console.log("values = ", form.getFieldValue("ingredients"));
   };
-  const handleCalculateCost = (e) => {
+  const handleCalculateCost = () => {
     const currentData = form.getFieldValue("ingredients");
-    const newData = currentData.map((ingredient) => {
+    const newData = currentData.map((ingredient: any) => {
       if (!ingredient) {
         return;
       }
@@ -94,7 +95,9 @@ export const MenuCreateFrom: React.FC<MenuCreateForm> = ({
       console.log("mockIngredient", mockIngredient);
       console.log("targetIngredient", targetIngredient);
       const cost =
+        // @ts-ignore
         (ingredient.qtyServe / targetIngredient?.productSize) *
+        // @ts-ignore
         targetIngredient?.unitPrice;
       return {
         ...ingredient,
