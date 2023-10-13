@@ -32,6 +32,26 @@ export const MenuCreateFrom: React.FC<MenuCreateForm> = ({
 }) => {
   const [form] = Form.useForm();
   const onChange = (value: string) => {
+    const currentData = form.getFieldValue("ingredients");
+    const newData = currentData.map((ingredient) => {
+      if (!ingredient) {
+        return;
+      }
+      const targetIngredient = mockIngredient.find(
+        (ingredientDetail) => ingredientDetail.key === ingredient.ingredientId
+      );
+      console.log("ingredient", ingredient);
+      console.log("mockIngredient", mockIngredient);
+      console.log("targetIngredient", targetIngredient);
+      return {
+        ...ingredient,
+        productSize: targetIngredient?.productSize,
+        unit: targetIngredient?.unit,
+        productPrice: targetIngredient?.unitPrice,
+      };
+    });
+    form.setFieldValue("ingredients", newData);
+    console.log("values = ", form.getFieldValue("ingredients"));
     console.log(`selected ${value}`);
   };
 
@@ -44,7 +64,46 @@ export const MenuCreateFrom: React.FC<MenuCreateForm> = ({
     input: string,
     option: { label: string; value: string }
   ) => (option?.label ?? "").toLowerCase().includes(input.toLowerCase());
+  const handleFieldsChange = (values) => {
+    console.log("values = ", form.getFieldValue("ingredients"));
+    // const currentData = form.getFieldValue("ingredients");
+    // const newValue =
+    // console.log(values);
+  };
+  // {
+  //   key: "1",
+  //   name: "ingredient 1",
+  //   category: "seafood",
+  //   unit: "kg",
+  //   unitPrice: 200,
+  // },
 
+  const testFn = () => {
+    console.log("values = ", form.getFieldValue("ingredients"));
+  };
+  const handleCalculateCost = (e) => {
+    const currentData = form.getFieldValue("ingredients");
+    const newData = currentData.map((ingredient) => {
+      if (!ingredient) {
+        return;
+      }
+      const targetIngredient = mockIngredient.find(
+        (ingredientDetail) => ingredientDetail.key === ingredient.ingredientId
+      );
+      console.log("ingredient", ingredient);
+      console.log("mockIngredient", mockIngredient);
+      console.log("targetIngredient", targetIngredient);
+      const cost =
+        (ingredient.qtyServe / targetIngredient?.productSize) *
+        targetIngredient?.unitPrice;
+      return {
+        ...ingredient,
+        cost,
+      };
+    });
+    form.setFieldValue("ingredients", newData);
+    console.log("values = ", form.getFieldValue("ingredients"));
+  };
   return (
     <Modal
       open={open}
@@ -91,6 +150,7 @@ export const MenuCreateFrom: React.FC<MenuCreateForm> = ({
       <Form
         form={form}
         layout="vertical"
+        onFieldsChange={handleFieldsChange}
         name="form_in_modal"
         initialValues={{ modifier: "public" }}
       >
@@ -100,7 +160,7 @@ export const MenuCreateFrom: React.FC<MenuCreateForm> = ({
         <Form.Item name="sellingPrice" label="Selling Price">
           <InputNumber />
         </Form.Item>
-        <Form.List name="ingredient">
+        <Form.List name="ingredients">
           {(fields, { add, remove }) => (
             <>
               {fields.map(({ key, name, ...restField }) => (
@@ -109,33 +169,45 @@ export const MenuCreateFrom: React.FC<MenuCreateForm> = ({
                   style={{ display: "flex", marginBottom: 8 }}
                   align="baseline"
                 >
-                  <Select
-                    showSearch
-                    placeholder="Select a person"
-                    optionFilterProp="children"
-                    onChange={onChange}
-                    onSearch={onSearch}
-                    // @ts-ignore
-                    filterOption={filterOption}
-                    options={mockIngredient.map((ingredient) => {
-                      return {
-                        label: ingredient.name,
-                        value: ingredient.key,
-                      };
-                    })}
-                  />
-                  <Form.Item>
+                  <Form.Item name={[name, "ingredientId"]}>
+                    <Select
+                      showSearch
+                      placeholder="Select an ingredient"
+                      optionFilterProp="children"
+                      onChange={onChange}
+                      onSearch={onSearch}
+                      // @ts-ignore
+                      filterOption={filterOption}
+                      options={mockIngredient.map((ingredient) => {
+                        console.log("heyy", key);
+                        console.log("hey2", name);
+                        return {
+                          label: ingredient.name,
+                          value: ingredient.key,
+                        };
+                      })}
+                    />
+                  </Form.Item>
+                  <Form.Item name={[name, "unit"]}>
                     <Input placeholder="Unit" disabled />
                   </Form.Item>
-                  <Form.Item>
+                  <Form.Item name={[name, "productPrice"]}>
                     <Input placeholder="Product Price" disabled />
                   </Form.Item>
-                  <Form.Item name={[name, "last"]}>
-                    <Input placeholder="Last Name" />
+                  <Form.Item name={[name, "qtyServe"]}>
+                    <Input
+                      onChange={handleCalculateCost}
+                      placeholder="QTY/Serve"
+                    />
+                  </Form.Item>
+
+                  <Form.Item name={[name, "cost"]}>
+                    <Input disabled placeholder="Cost" />
                   </Form.Item>
                   <MinusCircleOutlined onClick={() => remove(name)} />
                 </Space>
               ))}
+
               <Form.Item>
                 <Button
                   type="dashed"

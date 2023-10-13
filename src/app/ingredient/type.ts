@@ -6,6 +6,7 @@ export type IngredientCategory = "seafood" | "meat" | "vegetable" | "other";
     name: string;
     category: IngredientCategory;
     unit: string;
-    unitPrice: number;
+    unitPrice?: number;
+    productSize?:number;
   };
   export type DataIndex = keyof Ingredient;

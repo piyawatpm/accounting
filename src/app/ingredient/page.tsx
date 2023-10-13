@@ -21,25 +21,36 @@ import {
   Space,
   InputRef,
 } from "antd";
+import { v4 as uuidv4 } from "uuid";
+
 import TextArea from "antd/es/input/TextArea";
 import { ColumnType, ColumnsType } from "antd/es/table";
 import { SearchOutlined } from "@ant-design/icons";
 import Image from "next/image";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { IngredientCreateForm } from "@/conponents/IngredientCreateForm";
 import { FilterConfirmProps } from "antd/es/table/interface";
 import Highlighter from "react-highlight-words";
 import { DataIndex, Ingredient, IngredientCategory } from "./type";
 import { ingredienCategorytData, mockIngredient } from "@/util/mockData";
+import axios from "axios";
+import { useAllIngredient } from "@/swr/useAllIngredient";
 
 const IngredientPage = () => {
-  const [ingredientList, setIngredientList] =
-    useState<Ingredient[]>(mockIngredient);
+  const [ingredientList, setIngredientList] = useState<Ingredient[]>([]);
+
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const searchInput = useRef<InputRef>(null);
+  const { data: ingredientListFromApi, mutate: refetchIngredients } =
+    useAllIngredient();
+  useEffect(() => {
+    if (ingredientListFromApi) {
+      setIngredientList(ingredientListFromApi);
+    }
+  }, [ingredientListFromApi]);
   const handleReset = (clearFilters: () => void) => {
     clearFilters();
     setSearchText("");
@@ -136,14 +147,28 @@ const IngredientPage = () => {
   });
   const onCreate = async (values: any) => {
     console.log("Received values of form: ", values);
-    setLoading(true);
-    await setTimeout(() => {
-      setIngredientList((p) => {
-        return [...p, values];
+    try {
+      setLoading(true);
+      const response = await axios.post("http://localhost:8000/ingredients", {
+        key: uuidv4(), // ⇨ '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d,
+        ...values,
       });
-      setOpen(false);
+      await refetchIngredients();
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    } finally {
       setLoading(false);
-    }, 3000);
+      setOpen(false);
+    }
+
+    // await setTimeout(() => {
+    //   setIngredientList((p) => {
+    //     return [...p, values];
+    //   });
+    //   setOpen(false);
+    //   setLoading(false);
+    // }, 3000);
     // setOpen(false);s
   };
   const onCancel = () => {
@@ -237,7 +262,7 @@ ColumnsType<Ingredient> = ({ getColumnSearchProps }) => [
     render: (unitPrice, item) => {
       return (
         <div className=" flex flex-col text-xs font-normal">
-          <p>{`${unitPrice}`}</p>
+          <p>{`${unitPrice} $`}</p>
         </div>
       );
     },

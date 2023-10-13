@@ -1,3 +1,4 @@
+import { Ingredient } from "../ingredient/type";
 
 export type MenuTableData = {
     key: string;
@@ -5,5 +6,6 @@ export type MenuTableData = {
     cost: number;
     costPercent: number;
     yieldPercent: number;
+    ingredients:Ingredient[]
   };
 export type DataIndex = keyof MenuTableData;

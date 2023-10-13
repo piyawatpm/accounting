@@ -7,6 +7,7 @@ export const mockIngredient: Ingredient[] = [
       category: "seafood",
       unit: "kg",
       unitPrice: 200,
+      productSize:1,
     },
     {
       key: "2",
@@ -14,6 +15,7 @@ export const mockIngredient: Ingredient[] = [
       category: "meat",
       unit: "g",
       unitPrice: 400,
+      productSize:1,
     },
     {
       key: "3",
@@ -21,6 +23,7 @@ export const mockIngredient: Ingredient[] = [
       category: "seafood",
       unit: "kg",
       unitPrice: 100,
+            productSize:1,
     },
     {
       key: "4",
@@ -28,6 +31,7 @@ export const mockIngredient: Ingredient[] = [
       category: "vegetable",
       unit: "kg",
       unitPrice: 600,
+      productSize:1,
     },
     {
       key: "5",
@@ -35,6 +39,7 @@ export const mockIngredient: Ingredient[] = [
       category: "meat",
       unit: "g",
       unitPrice: 400,
+      productSize:1,
     },
     {
       key: "6",
@@ -42,6 +47,7 @@ export const mockIngredient: Ingredient[] = [
       category: "seafood",
       unit: "kg",
       unitPrice: 100,
+      productSize:1,
     },
     {
       key: "7",
@@ -49,6 +55,7 @@ export const mockIngredient: Ingredient[] = [
       category: "vegetable",
       unit: "kg",
       unitPrice: 600,
+      productSize:1,
     },
   ];
   export const ingredienCategorytData: IngredientCategory[] = [
