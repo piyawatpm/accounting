@@ -35,6 +35,7 @@ import { DataIndex, Ingredient, IngredientCategory } from "./type";
 import { ingredienCategorytData, mockIngredient } from "@/util/mockData";
 import axios from "axios";
 import { useAllIngredient } from "@/swr/useAllIngredient";
+import { api } from "../../../lib/axios";
 
 const IngredientPage = () => {
   const [ingredientList, setIngredientList] = useState<Ingredient[]>([]);
@@ -149,7 +150,7 @@ const IngredientPage = () => {
     console.log("Received values of form: ", values);
     try {
       setLoading(true);
-      const response = await axios.post("http://localhost:8000/ingredients", {
+      const response = await api.post({
         key: uuidv4(), // ⇨ '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d,
         ...values,
       });
